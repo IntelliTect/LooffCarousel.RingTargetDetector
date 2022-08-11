@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "author": "Dan Garcia (added by Marc Miller)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 550, "left": 25, "attrs": {} },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels1",
+      "top": -108.42,
+      "left": -826.36,
+      "rotate": 90,
+      "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels2",
+      "top": -1007.26,
+      "left": 122.64,
+      "rotate": 180,
+      "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels3",
+      "top": -101.12,
+      "left": 1132.99,
+      "rotate": 270,
+      "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    }
+  ],
+  "connections": [
+    [ "uno:10", "neopixels1:DIN", "green", [ "v-10", "h-140", "*", "v23" ] ],
+    [ "uno:11", "neopixels2:DIN", "green", [ "v-28", "h-120", "*", "v13" ] ],
+    [ "uno:12", "neopixels3:DIN", "green", [ "v-34", "h-100", "*", "v30" ] ],
+    [ "uno:GND.2", "neopixels1:VSS", "black", [ "v30", "h-190", "*", "v20" ] ],
+    [ "uno:GND.2", "neopixels2:VSS", "black", [ "v30", "h-190", "*", "v0" ] ],
+    [ "uno:GND.2", "neopixels3:VSS", "black", [ "v30", "h-190", "*", "v35" ] ],
+    [ "uno:5V", "neopixels1:VDD", "red", [ "v-24", "h-170", "*", "v23" ] ],
+    [ "uno:5V", "neopixels2:VDD", "red", [ "v-24", "h-170", "*", "v0" ] ],
+    [ "uno:5V", "neopixels3:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ]
+  ]
+}
