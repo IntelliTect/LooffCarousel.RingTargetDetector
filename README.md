@@ -5,3 +5,5 @@ Wokwi project for collabrative editing. Please upload the project, save your cha
 
 ## Fastled
 see https://github.com/FastLED/FastLED/wiki/Basic-usage
+
+![](./readmeAssets/targetRendering.jpg)
