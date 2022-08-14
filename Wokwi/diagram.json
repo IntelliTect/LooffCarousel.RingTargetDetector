@@ -1,43 +1,85 @@
 {
   "version": 1,
-  "author": "Dan Garcia (added by Marc Miller)",
+  "author": "IntelliTect",
   "editor": "wokwi",
   "parts": [
-    { "type": "wokwi-arduino-uno", "id": "uno", "top": 550, "left": 25, "attrs": {} },
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 2210.9, "left": 2083.7, "attrs": {} },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels0",
+      "top": -266.66,
+      "left": -836.59,
+      "rotate": 100,
+      "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    },
     {
       "type": "wokwi-neopixel-canvas",
       "id": "neopixels1",
-      "top": -108.42,
-      "left": -826.36,
-      "rotate": 90,
+      "top": -991.95,
+      "left": 209.41,
+      "rotate": 185,
       "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
     },
     {
       "type": "wokwi-neopixel-canvas",
       "id": "neopixels2",
-      "top": -1007.26,
-      "left": 122.64,
-      "rotate": 180,
+      "top": -208.31,
+      "left": 1117.68,
+      "rotate": 260,
       "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
     },
     {
       "type": "wokwi-neopixel-canvas",
       "id": "neopixels3",
-      "top": -101.12,
-      "left": 1132.99,
-      "rotate": 270,
+      "top": 524.77,
+      "left": 960.58,
+      "rotate": 300,
       "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels4",
+      "top": 917.79,
+      "left": -85.76,
+      "rotate": 10,
+      "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    },
+    {
+      "type": "wokwi-neopixel-canvas",
+      "id": "neopixels5",
+      "top": 529.88,
+      "left": -682.94,
+      "rotate": 50,
+      "attrs": { "rows": "60", "cols": "1", "pixelate": "1", "matrixBrightness": ".8" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 2130.99,
+      "left": 1663.84,
+      "attrs": { "color": "blue", "key": "Control", "bounce": "1" }
     }
   ],
   "connections": [
-    [ "uno:10", "neopixels1:DIN", "green", [ "v-10", "h-140", "*", "v23" ] ],
-    [ "uno:11", "neopixels2:DIN", "green", [ "v-28", "h-120", "*", "v13" ] ],
-    [ "uno:12", "neopixels3:DIN", "green", [ "v-34", "h-100", "*", "v30" ] ],
-    [ "uno:GND.2", "neopixels1:VSS", "black", [ "v30", "h-190", "*", "v20" ] ],
-    [ "uno:GND.2", "neopixels2:VSS", "black", [ "v30", "h-190", "*", "v0" ] ],
+    [ "uno:8", "neopixels0:DIN", "green", [ "v-10", "h-140", "*", "v23" ] ],
+    [ "uno:9", "neopixels1:DIN", "green", [ "v-28", "h-120", "*", "v13" ] ],
+    [ "uno:10", "neopixels2:DIN", "green", [ "v-34", "h-100", "*", "v30" ] ],
+    [ "uno:11", "neopixels3:DIN", "green", [ "v-34", "h-100", "*", "v30" ] ],
+    [ "uno:12", "neopixels4:DIN", "green", [ "v-34", "h-100", "*", "v30" ] ],
+    [ "uno:13", "neopixels5:DIN", "green", [ "v-34", "h-100", "*", "v30" ] ],
+    [ "uno:GND.2", "neopixels0:VSS", "black", [ "v30", "h-190", "*", "v20" ] ],
+    [ "uno:GND.2", "neopixels1:VSS", "black", [ "v30", "h-190", "*", "v0" ] ],
+    [ "uno:GND.2", "neopixels2:VSS", "black", [ "v30", "h-190", "*", "v35" ] ],
     [ "uno:GND.2", "neopixels3:VSS", "black", [ "v30", "h-190", "*", "v35" ] ],
-    [ "uno:5V", "neopixels1:VDD", "red", [ "v-24", "h-170", "*", "v23" ] ],
-    [ "uno:5V", "neopixels2:VDD", "red", [ "v-24", "h-170", "*", "v0" ] ],
-    [ "uno:5V", "neopixels3:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ]
+    [ "uno:GND.2", "neopixels4:VSS", "black", [ "v30", "h-190", "*", "v35" ] ],
+    [ "uno:GND.2", "neopixels5:VSS", "black", [ "v30", "h-190", "*", "v35" ] ],
+    [ "uno:5V", "neopixels0:VDD", "red", [ "v-24", "h-170", "*", "v23" ] ],
+    [ "uno:5V", "neopixels1:VDD", "red", [ "v-24", "h-170", "*", "v0" ] ],
+    [ "uno:5V", "neopixels2:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ],
+    [ "uno:5V", "neopixels3:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ],
+    [ "uno:5V", "neopixels4:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ],
+    [ "uno:5V", "neopixels5:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ],
+    [ "uno:2", "btn1:1.r", "green", [ "v-24", "h-170", "*", "v30" ] ],
+    [ "uno:GND.2", "btn1:2.r", "black", [ "v-24", "h-170", "*", "v30" ] ]
   ]
 }
