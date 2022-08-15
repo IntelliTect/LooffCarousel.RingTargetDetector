@@ -1,15 +1,21 @@
 #include <FastLED.h>
+#include "CelebrationPattern.h"
+#include "ExamplePattern.h"
 
 #define NUM_STRIPS 6
 #define NUM_LEDS_PER_STRIP 60
+#define NUM_CELEBRATIONS 1
 CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define PUSH_BTN_PIN 2
 //const int8_t DataPins[] = {8, 9, 10, 11,12,13};
 uint8_t _ButtonState = 0;
 
+CelebrationPattern **_CelebrationPatterns = new CelebrationPattern *[NUM_CELEBRATIONS];
+
 void setup()
 {
-
+  //add patterns
+  _CelebrationPatterns[0] = new ExamplePattern(1);
   // add led strips
   FastLED.addLeds<NEOPIXEL, 8>(leds[0], NUM_LEDS_PER_STRIP);
   FastLED.addLeds<NEOPIXEL, 9>(leds[1], NUM_LEDS_PER_STRIP);
