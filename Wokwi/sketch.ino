@@ -1,9 +1,8 @@
 #include <FastLED.h>
 #include "CelebrationPattern.h"
 #include "ExamplePattern.h"
+#include "LedDisplayConf.h"
 
-#define NUM_STRIPS 6
-#define NUM_LEDS_PER_STRIP 60
 #define NUM_CELEBRATIONS 1
 CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define PUSH_BTN_PIN 2
@@ -15,7 +14,7 @@ CelebrationPattern **_CelebrationPatterns = new CelebrationPattern *[NUM_CELEBRA
 void setup()
 {
   //add patterns
-  _CelebrationPatterns[0] = new ExamplePattern(1);
+  _CelebrationPatterns[0] = new ExamplePattern();
   // add led strips
   FastLED.addLeds<NEOPIXEL, 8>(leds[0], NUM_LEDS_PER_STRIP);
   FastLED.addLeds<NEOPIXEL, 9>(leds[1], NUM_LEDS_PER_STRIP);
@@ -30,55 +29,20 @@ void setup()
   delay(50);
 }
 
-uint8_t _i = 0;
-uint8_t _x = 0;
 
-bool doPattern(bool someoneJustScored = false)
-{
-  // reset your pattern to play from the begining if someoneJustScored
-  if (someoneJustScored)
-  {
-    //reset pattern
-    _i = -1;
-    _x = 0;
-  }
-
-  // restore state
-  uint8_t i = _i;
-  uint8_t x = _x;
-
-  i++;
-
-  if (i == NUM_LEDS_PER_STRIP)
-  {
-    i = 0;
-    x++;
-  }
-
-  // have a way to know when your pattern is complete.
-  // and if pattern is completed do nothing
-  // return true
-  if (_x == NUM_STRIPS)
-  {
-    return true;
-  }
-  // *turn off previous led;
-  //leds[_x][_i] = CRGB::Black;
-  // *turn on current led
-  leds[x][i] = CRGB::Red;
-
-  _i = i;
-  _x = x;
-
-  return false;
-}
-
-bool _SomeoneScored = false;
+bool _SomeoneScored = true; // always play a start up for testing purposes
 uint8_t _Speed = 3;
 bool _CurrentPatternCompleted = false;
 
+CelebrationPattern *_SelectedPattern;
+
 void loop()
 {
+  
+  // set your pattern to the default patter for testing
+  _SelectedPattern = _CelebrationPatterns[0];
+  _Speed =_SelectedPattern->m_speed;
+  //------------
   _ButtonState = digitalRead(PUSH_BTN_PIN);
   _SomeoneScored = false;
 
@@ -89,15 +53,20 @@ void loop()
 
     _SomeoneScored = true;
     _CurrentPatternCompleted = false;
+
+    _SelectedPattern = _CelebrationPatterns[0];
   }
 
   EVERY_N_MILLISECONDS_I(thistimer, _Speed)
   {
+    // speed can be controlled dynamically
+    _Speed = _SelectedPattern->m_speed;
+
     thistimer.setPeriod(_Speed);
 
     if (_CurrentPatternCompleted == false)
     {
-      _CurrentPatternCompleted = doPattern(_SomeoneScored);
+      _CurrentPatternCompleted = _SelectedPattern->draw(leds, _SomeoneScored);
     }
     FastLED.show();
 

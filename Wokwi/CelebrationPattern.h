@@ -6,13 +6,16 @@
 // You need to import Arduino.h to write a custom library
 #include "Arduino.h"
 #include <FastLED.h>
+#include "LedDisplayConf.h"
+
 
 class CelebrationPattern
 {
-public:
-    // pure virtual function
-    virtual bool draw(CRGB **leds, uint8_t numStrips, uint8_t numLedsPerStrip, bool someoneJustScored = false) = 0;
-    double speed; // how often you want draw() called in ms
+  public:
+    // called at around every n ms where n is defined by "speed".
+    virtual bool draw(CRGB Leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false) = 0;
+    // how often you want draw() called in ms
+    uint8_t m_speed;
 };
 
 #endif
