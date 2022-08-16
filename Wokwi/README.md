@@ -9,4 +9,4 @@ Demo here of working with Wokwi and this project here: https://youtu.be/ir_rem_W
 
 ### File structure
 
-Add your patterns to a folder with the name of the pattern being the folder name. This allows for easily grabbing just the base files to start working in Wokwi.
+Add your patterns to Patterns folder. This allows for easily grabbing just the base files to start working in Wokwi.
