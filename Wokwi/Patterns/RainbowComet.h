@@ -47,10 +47,9 @@ class RainbowComet : public CelebrationPattern
         if (random(10) > 5)
           leds[0][j] = leds[0][j].fadeToBlackBy(fadeAmt);
 
-
       DuplicateToOtherStrips(leds);
 
-       if (iPos == 50) {
+      if (iPos == (NUM_LEDS_PER_STRIP - cometSize)) {
         return true;
       }
 
