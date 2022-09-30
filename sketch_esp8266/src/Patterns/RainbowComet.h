@@ -3,9 +3,15 @@
 
 #include "Arduino.h"
 #include <FastLED.h>
-#include "CelebrationPattern.h"
+// for arduino
+#include "../CelebrationPattern.h"
+#include "../LedDisplayConf.h"
+#include "../UtilityFunctions.h"
+
+// for Wokwi (doesn't have folder structure)
+/* #include "CelebrationPattern.h"
 #include "LedDisplayConf.h"
-#include "UtilityFunctions.h"
+#include "UtilityFunctions.h" */
 
 
 class RainbowComet : public CelebrationPattern

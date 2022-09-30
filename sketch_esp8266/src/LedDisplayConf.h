@@ -5,5 +5,6 @@
 
 #define NUM_STRIPS 6
 #define NUM_LEDS_PER_STRIP 60
+#define STRIP_RGB_ORDER GRB
 
 #endif
