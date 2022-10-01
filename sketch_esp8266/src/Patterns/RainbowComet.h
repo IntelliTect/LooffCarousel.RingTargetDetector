@@ -20,7 +20,7 @@ class RainbowComet : public CelebrationPattern
   public:
     RainbowComet()
     {
-      m_speed = 30;
+      m_speed = 20;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
