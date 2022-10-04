@@ -2,7 +2,7 @@
 
 Simulate this project on https://wokwi.com by uploading all files in the Wokwi directory to this blank project:
 [https://wokwi.com/projects/340036460004508242](https://wokwi.com/projects/340036460004508242)
-⚠️ You will need to add all the files from ../sketch_esp8266/src as well (excpet the `Patterns` folder in `src`)
+⚠️ You will need to add all the files from [../sketch_esp8266/src](../sketch_esp8266/src) as well (except the `Patterns` folder in `src`)
 
 ### Demo video
 
