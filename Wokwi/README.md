@@ -8,8 +8,10 @@
 4. Put your pattern in [../sketch_esp8266/src/patterns](../sketch_esp8266/src/patterns) and adjust the imports to work with the arduino project structure (reference exsiting patterns for example) 
 5. Create a PR!
 
-### Demo video
+## Demo video
 
 Demo here of working with Wokwi and this project here: https://www.loom.com/share/6214540d130b4ce48f3a302fa1ada0d5
 
+## Example Fastled Tutorials
 
+Check out the YouTube channel Dave's Garage: https://www.youtube.com/watch?v=r6vMdnqUjTk
