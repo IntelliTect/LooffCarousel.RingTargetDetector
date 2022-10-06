@@ -7,5 +7,6 @@
 #include "Arduino.h"
 // add patterns in this folder
 #include "./RainbowComet.h"
+#include "./StarBurst.h"
 
 #endif

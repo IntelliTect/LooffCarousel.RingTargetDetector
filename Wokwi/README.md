@@ -5,8 +5,8 @@
 ![uploadExample](../readmeAssets/wokwiUpload.png)
 2. Add all the files from [../sketch_esp8266/src](../sketch_esp8266/src) as well (except the `Patterns` folder in `src`)
 3. Code
-4. Put your pattern in [../sketch_esp8266/src/patterns](../sketch_esp8266/src/patterns) and adjust the imports to work with the arduino project structure (reference exsiting patterns for example) 
-5. Create a PR!
+4. Put your pattern in [../sketch_esp8266/src/patterns](../sketch_esp8266/src/patterns) and adjust the imports to work with the arduino project structure (reference existing patterns for example) 
+5. Create a PR! (include a link to the Wokwi project that you have a running instance of your pattern in)
 
 ## Demo video
 

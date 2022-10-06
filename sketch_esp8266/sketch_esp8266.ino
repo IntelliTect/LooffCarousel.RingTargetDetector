@@ -9,7 +9,7 @@
 
 
 // patterns
-#define NUM_CELEBRATIONS 2
+#define NUM_CELEBRATIONS 3
 CelebrationPattern **_CelebrationPatterns = new CelebrationPattern *[NUM_CELEBRATIONS];
 
 //leds
@@ -39,6 +39,7 @@ void setup() {
   //add patterns
   _CelebrationPatterns[0] = new ExamplePattern();
   _CelebrationPatterns[1] = new RainbowComet();
+  _CelebrationPatterns[2] = new StarBurst();
   // add led strips
   FastLED.addLeds<WS2812, 1, STRIP_RGB_ORDER>(leds[0], NUM_LEDS_PER_STRIP);
   FastLED.addLeds<WS2812, 2, STRIP_RGB_ORDER>(leds[1], NUM_LEDS_PER_STRIP);
