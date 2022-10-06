@@ -23,6 +23,8 @@ void setup()
   FastLED.addLeds<NEOPIXEL, 12>(leds[4], NUM_LEDS_PER_STRIP);
   FastLED.addLeds<NEOPIXEL, 13>(leds[5], NUM_LEDS_PER_STRIP);
 
+  Serial.begin(115200);
+  Serial.println("in setup");
   //add push button (simulate ring toss detected)
   pinMode(PUSH_BTN_PIN, INPUT_PULLUP);
 
@@ -38,10 +40,10 @@ CelebrationPattern *_SelectedPattern;
 
 void loop()
 {
-  
+
   // set your pattern to the default patter for testing
   _SelectedPattern = _CelebrationPatterns[0];
-  _Speed =_SelectedPattern->m_speed;
+  _Speed = _SelectedPattern->m_speed;
   //------------
   _ButtonState = digitalRead(PUSH_BTN_PIN);
   _SomeoneScored = false;

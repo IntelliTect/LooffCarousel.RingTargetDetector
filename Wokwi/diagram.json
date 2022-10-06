@@ -81,5 +81,6 @@
     [ "uno:5V", "neopixels5:VDD", "red", [ "v-24", "h-170", "*", "v30" ] ],
     [ "uno:2", "btn1:1.r", "green", [ "v-24", "h-170", "*", "v30" ] ],
     [ "uno:GND.2", "btn1:2.r", "black", [ "v-24", "h-170", "*", "v30" ] ]
-  ]
+  ],
+  "serialMonitor": { "display": "terminal", "newline": "lf" }
 }
