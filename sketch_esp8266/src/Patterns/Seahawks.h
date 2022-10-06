@@ -17,7 +17,7 @@ class Seahawks : public CelebrationPattern
     {
       _i = 0;
       _x = 0;
-      m_speed = 1;
+      m_speed = 10;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
@@ -34,6 +34,10 @@ class Seahawks : public CelebrationPattern
       uint8_t x = _x;
 
       i++;
+      if (i == 60)
+      {
+        return true;
+      }
 
       if (i == NUM_LEDS_PER_STRIP)
       {
@@ -56,11 +60,13 @@ class Seahawks : public CelebrationPattern
       leds[x + 3][i] = dodgerBlue;
       leds[x + 4][i] = lawnGreen;
       leds[x + 5][i] = dodgerBlue;
-      m_speed -= 0.1;
-  
+      if (m_speed > 0)
+      {
+        m_speed -= 1;
+      }
       _i = i;
       _x = x;
-
+      
       return false;
     }
 
