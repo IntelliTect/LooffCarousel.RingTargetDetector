@@ -1,19 +1,19 @@
-#ifndef ColorCircle_h
-#define ColorCircle_h
+#ifndef RandomColorCircle_h
+#define RandomColorCircle_h
 
 #include "Arduino.h"
 #include <FastLED.h>
-#include "CelebrationPattern.h"
-#include "LedDisplayConf.h"
+#include "../CelebrationPattern.h"
+#include "../LedDisplayConf.h"
 
-class ColorCircle : public CelebrationPattern
+class RandomColorCircle : public CelebrationPattern
 {
   private:
     uint8_t _i;
     uint8_t _x;
 
   public:
-    ColorCircle()
+    RandomColorCircle()
     {
       _i = 0;
       _x = 0;
