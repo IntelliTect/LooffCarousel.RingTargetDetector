@@ -16,7 +16,7 @@ CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define LED_BRIGHTNESS 150
 
 // sensors and servo
-// must use gpio pin umbers for when not dealing with fastled
+// must use gpio pin numbers for when not dealing with fastled
 #define VIBRATION_SENSOR_0_PIN 16  //d0
 #define VIBRATION_SENSOR_1_PIN 13  //d7
 #define SERVO_ARDUINO_PIN 15  //d8 
@@ -36,10 +36,9 @@ void setup() {
   pinMode(VIBRATION_SENSOR_1_PIN, INPUT);
 
   //add patterns
-  _CelebrationPatterns[0] = new ExamplePattern();
-  _CelebrationPatterns[1] = new RainbowComet();
-  _CelebrationPatterns[2] = new StarBurst();
-  _CelebrationPatterns[3] = new RandomColorCircle();
+  _CelebrationPatterns[0] = new RainbowComet();
+  _CelebrationPatterns[1] = new StarBurst();
+  //_CelebrationPatterns[2] = new RandomColorCircle();
   // add led strips
   FastLED.addLeds<WS2812, 1, STRIP_RGB_ORDER>(leds[0], NUM_LEDS_PER_STRIP);
   FastLED.addLeds<WS2812, 2, STRIP_RGB_ORDER>(leds[1], NUM_LEDS_PER_STRIP);
@@ -98,7 +97,8 @@ void loop() {
         FastLED.show();
         _SomeoneScored = true;
         _CurrentPatternAnimationFinished = false;
-        _SelectedPattern = _CelebrationPatterns[random8(NUM_PATTERNS)];
+        uint8_t index = random8(NUM_PATTERNS);
+        _SelectedPattern = _CelebrationPatterns[index];
         // prepare bell
         _SwingBell = true;
       }
@@ -121,7 +121,6 @@ void loop() {
         delay(10);        // wait a moment so that the last frame of the pattern is shown (not really important though)
         FastLED.clear();  // clear all pixel data
         FastLED.show();
-        Serial.println("animation complete");
       }
     }
   } else {
