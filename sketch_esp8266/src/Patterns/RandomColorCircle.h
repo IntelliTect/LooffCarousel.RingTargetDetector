@@ -17,7 +17,7 @@ class RandomColorCircle : public CelebrationPattern
     {
       _i = 0;
       _x = 0;
-      m_speed = 1;
+      m_speed = 13;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)

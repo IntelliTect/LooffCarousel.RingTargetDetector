@@ -17,7 +17,7 @@ class Seahawks : public CelebrationPattern
     {
       _i = 0;
       _x = 0;
-      m_speed = 10;
+      m_speed = 30;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
@@ -60,7 +60,7 @@ class Seahawks : public CelebrationPattern
       leds[x + 3][i] = dodgerBlue;
       leds[x + 4][i] = lawnGreen;
       leds[x + 5][i] = dodgerBlue;
-      if (m_speed > 0)
+      if (m_speed > 8)
       {
         m_speed -= 1;
       }

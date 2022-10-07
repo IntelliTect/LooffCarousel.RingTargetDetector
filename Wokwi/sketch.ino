@@ -6,7 +6,7 @@
 #define NUM_CELEBRATIONS 1
 CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define PUSH_BTN_PIN 2
-#define NUM_MS_PER_FRAME 13 //adjust for displays actual framerate aprox 80fps (12.5 ms = 1 ms) 
+#define NUM_MS_PER_FRAME 25 //adjust for displays actual framerate aprox 40fps (12.5 ms = 1 ms) 
 //const int8_t DataPins[] = {8, 9, 10, 11,12,13};
 uint8_t _ButtonState = 0;
 

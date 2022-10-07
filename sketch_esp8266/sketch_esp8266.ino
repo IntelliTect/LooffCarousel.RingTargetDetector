@@ -14,6 +14,8 @@ CelebrationPattern **_CelebrationPatterns = new CelebrationPattern *[NUM_PATTERN
 //leds
 CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define LED_BRIGHTNESS 150
+#define NUM_MS_PER_FRAME 13
+uint8_t _msCounter = 0;
 
 // sensors and servo
 // must use gpio pin numbers for when not dealing with fastled
@@ -114,8 +116,7 @@ void loop() {
       thisAnimationTimer.setPeriod(_Speed);
 
       _CurrentPatternAnimationFinished = _SelectedPattern->draw(leds, _SomeoneScored);
-      // draw the pattern
-      FastLED.show();
+
       // once the pattern completes clear the LEDs
       if (_CurrentPatternAnimationFinished) {
         delay(10);        // wait a moment so that the last frame of the pattern is shown (not really important though)
@@ -123,6 +124,16 @@ void loop() {
         FastLED.show();
       }
     }
+     EVERY_N_MILLISECONDS(1)
+  {
+    //adjust for displays actual framerate.
+    _msCounter++;
+    if (_msCounter % NUM_MS_PER_FRAME == 0) {
+      // draw the pattern
+      FastLED.show();
+    }
+  }
+
   } else {
     // just draw black occasionally
     EVERY_N_MILLISECONDS(300) {
