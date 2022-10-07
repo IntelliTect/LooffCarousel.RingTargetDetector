@@ -35,18 +35,14 @@ class Seahawks : public CelebrationPattern
 
       i++;
       
+      // have a way to know when your pattern is complete.
+      // and if pattern is completed do nothing
+      // return true
       if (i == NUM_LEDS_PER_STRIP)
       {
         return true;
       }
 
-      // have a way to know when your pattern is complete.
-      // and if pattern is completed do nothing
-      // return true
-      if (_x == NUM_STRIPS)
-      {
-        return true;
-      }
       CRGB dodgerBlue = CRGB::DodgerBlue;
       CRGB lawnGreen = CRGB::LawnGreen;
       leds[x][i] = lawnGreen;
