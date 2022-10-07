@@ -1,23 +1,23 @@
-#ifndef RandomColorCircle_h
-#define RandomColorCircle_h
+#ifndef Seahawks_h
+#define Seahawks_h
 
 #include "Arduino.h"
 #include <FastLED.h>
-#include "../CelebrationPattern.h"
-#include "../LedDisplayConf.h"
+#include "CelebrationPattern.h"
+#include "LedDisplayConf.h"
 
-class RandomColorCircle : public CelebrationPattern
+class Seahawks : public CelebrationPattern
 {
   private:
     uint8_t _i;
     uint8_t _x;
 
   public:
-    RandomColorCircle()
+    Seahawks()
     {
       _i = 0;
       _x = 0;
-      m_speed = 1;
+      m_speed = 10;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
@@ -34,6 +34,10 @@ class RandomColorCircle : public CelebrationPattern
       uint8_t x = _x;
 
       i++;
+      if (i == 60)
+      {
+        return true;
+      }
 
       if (i == NUM_LEDS_PER_STRIP)
       {
@@ -48,12 +52,21 @@ class RandomColorCircle : public CelebrationPattern
       {
         return true;
       }
-      
-      leds[x][i] = CRGB(random8(), random8(), random8());
-
+      CRGB dodgerBlue = CRGB::DodgerBlue;
+      CRGB lawnGreen = CRGB::LawnGreen;
+      leds[x][i] = lawnGreen;
+      leds[x + 1][i] = dodgerBlue;
+      leds[x + 2][i] = lawnGreen;
+      leds[x + 3][i] = dodgerBlue;
+      leds[x + 4][i] = lawnGreen;
+      leds[x + 5][i] = dodgerBlue;
+      if (m_speed > 0)
+      {
+        m_speed -= 1;
+      }
       _i = i;
       _x = x;
-
+      
       return false;
     }
 
