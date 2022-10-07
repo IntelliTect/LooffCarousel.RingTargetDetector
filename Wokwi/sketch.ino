@@ -6,6 +6,7 @@
 #define NUM_CELEBRATIONS 1
 CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define PUSH_BTN_PIN 2
+#define NUM_MS_PER_FRAME 13 //adjust for displays actual framerate aprox 80fps (12.5 ms = 1 ms) 
 //const int8_t DataPins[] = {8, 9, 10, 11,12,13};
 uint8_t _ButtonState = 0;
 
@@ -35,6 +36,8 @@ void setup()
 bool _SomeoneScored = true; // always play a start up for testing purposes
 uint8_t _Speed = 3;
 bool _CurrentPatternCompleted = false;
+uint8_t d = 0;
+uint8_t f = 0;
 
 CelebrationPattern *_SelectedPattern;
 
@@ -70,12 +73,21 @@ void loop()
     {
       _CurrentPatternCompleted = _SelectedPattern->draw(leds, _SomeoneScored);
     }
-    FastLED.show();
 
     if (_CurrentPatternCompleted)
     {
       FastLED.clear(); // clear all pixel data
       FastLED.show();
     }
+  }
+
+  EVERY_N_MILLISECONDS(1)
+  {
+    //adjust for displays actual framerate aprox 80fps (12.5 ms = 1 ms)
+    d++;
+    if (d % NUM_MS_PER_FRAME == 0) {
+      FastLED.show();
+    }
+
   }
 }
