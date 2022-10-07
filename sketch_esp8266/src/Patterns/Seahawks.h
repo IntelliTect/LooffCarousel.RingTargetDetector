@@ -34,15 +34,10 @@ class Seahawks : public CelebrationPattern
       uint8_t x = _x;
 
       i++;
-      if (i == 60)
-      {
-        return true;
-      }
-
+      
       if (i == NUM_LEDS_PER_STRIP)
       {
-        i = 0;
-        x++;
+        return true;
       }
 
       // have a way to know when your pattern is complete.
@@ -69,7 +64,6 @@ class Seahawks : public CelebrationPattern
       
       return false;
     }
-
 };
 
 #endif
