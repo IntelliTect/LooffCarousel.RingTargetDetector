@@ -20,7 +20,7 @@ class StarBurst : public CelebrationPattern
   public:
     StarBurst()
     {
-      m_speed = 1;
+      m_speed = 9;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
