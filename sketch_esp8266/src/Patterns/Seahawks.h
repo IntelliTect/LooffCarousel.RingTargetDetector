@@ -11,6 +11,7 @@ class Seahawks : public CelebrationPattern
   private:
     uint8_t _i;
     uint8_t _x;
+    bool _reversePattern;
 
   public:
     Seahawks()
@@ -32,31 +33,51 @@ class Seahawks : public CelebrationPattern
       // restore state (try to limit the amount of state you store... try to recover state algorithmically)
       uint8_t i = _i;
       uint8_t x = _x;
+      bool reversePattern = _reversePattern;
 
       i++;
       
-      // have a way to know when your pattern is complete.
-      // and if pattern is completed do nothing
-      // return true
       if (i == NUM_LEDS_PER_STRIP)
       {
-        return true;
+        if (!reversePattern)
+        {
+          x = 0;
+          i = 0;
+          reversePattern = true;
+        } 
+        else
+        {
+          return true;
+        }
       }
 
       CRGB dodgerBlue = CRGB::DodgerBlue;
       CRGB lawnGreen = CRGB::LawnGreen;
-      leds[x][i] = lawnGreen;
-      leds[x + 1][i] = dodgerBlue;
-      leds[x + 2][i] = lawnGreen;
-      leds[x + 3][i] = dodgerBlue;
-      leds[x + 4][i] = lawnGreen;
-      leds[x + 5][i] = dodgerBlue;
+      if (reversePattern)
+      {
+        leds[x][i] = dodgerBlue;
+        leds[x + 1][i] = lawnGreen;
+        leds[x + 2][i] = dodgerBlue;
+        leds[x + 3][i] = lawnGreen;
+        leds[x + 4][i] = dodgerBlue;
+        leds[x + 5][i] = lawnGreen;
+      }
+      else
+      {
+        leds[x][i] = lawnGreen;
+        leds[x + 1][i] = dodgerBlue;
+        leds[x + 2][i] = lawnGreen;
+        leds[x + 3][i] = dodgerBlue;
+        leds[x + 4][i] = lawnGreen;
+        leds[x + 5][i] = dodgerBlue;
+      }
       if (m_speed > 8)
       {
         m_speed -= 1;
       }
       _i = i;
       _x = x;
+      _reversePattern = reversePattern;
       
       return false;
     }
