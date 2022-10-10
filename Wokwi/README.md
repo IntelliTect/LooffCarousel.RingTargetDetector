@@ -20,4 +20,4 @@ Check out the YouTube channel Dave's Garage: https://www.youtube.com/watch?v=r6v
 
 ## Frame Rates
 
-The LED strips in the configuration we are using max out at about 80 fps or 12.5ms per frame. Instead of having to extra logic in your draw function around fps, when set to have your draw function called every 13ms or less, and the program will convert your 80fps or greater draw function to 80 fps. This means you can make the leds "move" faster without changing logic. 
+The LED strips in the configuration we are using max out at about 80 fps or 12.5ms per frame. Instead of having to extra logic in your draw function around fps, when you set to have your draw function called every 13ms or less, the program will convert your draw function to 80 fps. This means you can make the leds "move" faster without changing logic. 
