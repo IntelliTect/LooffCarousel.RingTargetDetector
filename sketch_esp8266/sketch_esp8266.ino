@@ -40,6 +40,7 @@ void setup() {
   //add patterns
   _CelebrationPatterns[0] = new RainbowComet();
   _CelebrationPatterns[1] = new StarBurst();
+  _CelebrationPatterns[2] = new Seahawks();
   //_CelebrationPatterns[2] = new RandomColorCircle();
   // add led strips
   FastLED.addLeds<WS2812, 1, STRIP_RGB_ORDER>(leds[0], NUM_LEDS_PER_STRIP);

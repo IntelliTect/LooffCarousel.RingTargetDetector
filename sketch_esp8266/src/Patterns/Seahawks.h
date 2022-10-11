@@ -3,21 +3,28 @@
 
 #include "Arduino.h"
 #include <FastLED.h>
-#include "CelebrationPattern.h"
+// for arduino
+#include "../CelebrationPattern.h"
+#include "../LedDisplayConf.h"
+
+// for Wokwi (doesn't have folder structure)
+/* #include "CelebrationPattern.h"
 #include "LedDisplayConf.h"
+#include "UtilityFunctions.h" */
 
 class Seahawks : public CelebrationPattern
 {
   private:
     uint8_t _i;
     uint8_t _x;
+    bool _reversePattern;
 
   public:
     Seahawks()
     {
       _i = 0;
       _x = 0;
-      m_speed = 30;
+      m_speed = 20;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
@@ -27,49 +34,60 @@ class Seahawks : public CelebrationPattern
       {
         _i = -1;
         _x = 0;
+        _reversePattern = false;
       }
 
       // restore state (try to limit the amount of state you store... try to recover state algorithmically)
       uint8_t i = _i;
       uint8_t x = _x;
+      bool reversePattern = _reversePattern;
 
       i++;
-      if (i == 60)
-      {
-        return true;
-      }
-
+      
       if (i == NUM_LEDS_PER_STRIP)
       {
-        i = 0;
-        x++;
+        if (!reversePattern)
+        {
+          x = 0;
+          i = 0;
+          reversePattern = true;
+        } 
+        else
+        {
+          return true;
+        }
       }
 
-      // have a way to know when your pattern is complete.
-      // and if pattern is completed do nothing
-      // return true
-      if (_x == NUM_STRIPS)
-      {
-        return true;
-      }
       CRGB dodgerBlue = CRGB::DodgerBlue;
       CRGB lawnGreen = CRGB::LawnGreen;
-      leds[x][i] = lawnGreen;
-      leds[x + 1][i] = dodgerBlue;
-      leds[x + 2][i] = lawnGreen;
-      leds[x + 3][i] = dodgerBlue;
-      leds[x + 4][i] = lawnGreen;
-      leds[x + 5][i] = dodgerBlue;
+      if (reversePattern)
+      {
+        leds[x][i] = dodgerBlue;
+        leds[x + 1][i] = lawnGreen;
+        leds[x + 2][i] = dodgerBlue;
+        leds[x + 3][i] = lawnGreen;
+        leds[x + 4][i] = dodgerBlue;
+        leds[x + 5][i] = lawnGreen;
+      }
+      else
+      {
+        leds[x][i] = lawnGreen;
+        leds[x + 1][i] = dodgerBlue;
+        leds[x + 2][i] = lawnGreen;
+        leds[x + 3][i] = dodgerBlue;
+        leds[x + 4][i] = lawnGreen;
+        leds[x + 5][i] = dodgerBlue;
+      }
       if (m_speed > 8)
       {
         m_speed -= 1;
       }
       _i = i;
       _x = x;
+      _reversePattern = reversePattern;
       
       return false;
     }
-
 };
 
 #endif
