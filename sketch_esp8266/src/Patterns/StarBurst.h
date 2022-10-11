@@ -20,7 +20,7 @@ class StarBurst : public CelebrationPattern
   public:
     StarBurst()
     {
-      m_speed = 9;
+      m_speed = 10;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
@@ -29,7 +29,7 @@ class StarBurst : public CelebrationPattern
       static int8_t iPos = NUM_LEDS_PER_STRIP;
       static uint8_t sequence = 0;
       static bool startNextSequence = true;
-      const uint8_t numLedsPerDraw = 10;
+      const uint8_t numLedsPerDraw = 8;
       static uint8_t numLedsThisDraw = numLedsPerDraw;
       static CRGB colours1[] = {CRGB::DodgerBlue, CRGB::Red};
       static CRGB colours2[] = {CRGB::Fuchsia, CRGB::Orange};
@@ -53,6 +53,7 @@ class StarBurst : public CelebrationPattern
           if (startNextSequence) {
             iPos = NUM_LEDS_PER_STRIP - 1;
             startNextSequence = false;
+            m_speed = 4;
 
           }
 
@@ -82,6 +83,7 @@ class StarBurst : public CelebrationPattern
           if (startNextSequence) {
             iPos = 0;
             startNextSequence = false;
+             m_speed = 13;
           }
           // draw
           fill_gradient_RGB(leds[0], 0, colours1[colorIndex], iPos, colours2[colorIndex]);
