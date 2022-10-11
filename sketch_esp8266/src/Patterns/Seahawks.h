@@ -18,7 +18,7 @@ class Seahawks : public CelebrationPattern
     {
       _i = 0;
       _x = 0;
-      m_speed = 30;
+      m_speed = 20;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
@@ -28,6 +28,7 @@ class Seahawks : public CelebrationPattern
       {
         _i = -1;
         _x = 0;
+        _reversePattern = false;
       }
 
       // restore state (try to limit the amount of state you store... try to recover state algorithmically)
