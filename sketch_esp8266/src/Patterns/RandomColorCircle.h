@@ -8,30 +8,23 @@
 
 class RandomColorCircle : public CelebrationPattern
 {
-  private:
-    uint8_t _i;
-    uint8_t _x;
 
   public:
     RandomColorCircle()
     {
-      _i = 0;
-      _x = 0;
-      m_speed = 13;
+      m_speed = 8;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
     {
+      static uint8_t i = 0;
+      static uint8_t x = 0;
       // reset your pattern to play from the begining if someoneJustScored
       if (someoneJustScored)
       {
-        _i = -1;
-        _x = 0;
+        i = -1;
+        x = 0;
       }
-
-      // restore state (try to limit the amount of state you store... try to recover state algorithmically)
-      uint8_t i = _i;
-      uint8_t x = _x;
 
       i++;
 
@@ -44,15 +37,12 @@ class RandomColorCircle : public CelebrationPattern
       // have a way to know when your pattern is complete.
       // and if pattern is completed do nothing
       // return true
-      if (_x == NUM_STRIPS)
+      if (x == NUM_STRIPS)
       {
         return true;
       }
       
       leds[x][i] = CRGB(random8(), random8(), random8());
-
-      _i = i;
-      _x = x;
 
       return false;
     }
