@@ -26,6 +26,9 @@ uint8_t _msCounter = 0;
 
 uint_fast16_t _vibSensorCheckFrequency = 3;
 uint8_t _vibReading = 0;
+#define PERIOD_WAIT_BETWEEN_SCORES 800
+#define MAX_RING_BELL_IN_A_ROW 5
+
 
 void setup() {
 
@@ -73,12 +76,14 @@ void setup() {
 }
 
 // loop() props
-bool _SomeoneScored = false;
+bool _SomeoneScored = false; // same as vibration detected
 uint8_t _Speed = 3;                            // frequency in ms to draw a pattern
 bool _CurrentPatternAnimationFinished = true;  // dont play at start up!
 CelebrationPattern *_SelectedPattern;
 bool _SwingBell = false;
 uint8_t _BellSwingLoopCount = 0;
+uint8_t _VibrationDetectedCount = 0;
+int _VibrationSensorRefreshCheckPeriodMilliS = PERIOD_WAIT_BETWEEN_SCORES * MAX_RING_BELL_IN_A_ROW + 100;
 
 void loop() {
 
@@ -94,7 +99,7 @@ void loop() {
       if (_vibReading == 1) {
         //dont check the sensors for a bit
         // (presume that no one will score for a bit/ dont allow another score to interfere)
-        _vibSensorCheckFrequency = 800;
+        _vibSensorCheckFrequency = PERIOD_WAIT_BETWEEN_SCORES;
 
         // prepare to draw a pattern
         FastLED.clear();  // clear all pixel data
@@ -103,8 +108,13 @@ void loop() {
         _CurrentPatternAnimationFinished = false;
         uint8_t index = random8(NUM_PATTERNS);
         _SelectedPattern = _CelebrationPatterns[index];
-        // prepare bell
-        _SwingBell = true;
+
+        // prepare bell and dont swing if in a bad sensor state
+        // essentially only swing the bell if the frequency of scoring is greater than the PERIOD_WAIT_BETWEEN_SCORES 
+        _VibrationDetectedCount++;
+        if(_VibrationDetectedCount <= MAX_RING_BELL_IN_A_ROW){
+          _SwingBell = true;
+        }
       }
     }
     thisvibrationCheckTimer.setPeriod(_vibSensorCheckFrequency);
@@ -141,6 +151,16 @@ void loop() {
     EVERY_N_MILLISECONDS(300) {
       // draw
       FastLED.show();
+    }
+  }
+
+// this is to prevent over swinging of the bell when/if the cheap vibration sensors get stuck in a positive state
+     EVERY_N_MILLISECONDS(_VibrationSensorRefreshCheckPeriodMilliS)
+  {
+    // if its been n seconds and no vibration detected then reset the counter
+    // the sensors should be back in a good state
+    if(!_SomeoneScored){
+    _VibrationDetectedCount=0;
     }
   }
 
