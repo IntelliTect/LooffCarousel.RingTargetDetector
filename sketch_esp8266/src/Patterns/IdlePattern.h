@@ -16,86 +16,107 @@
 // patterns to be played when no one has scored for a a while
 class IdlePattern : public CelebrationPattern
 {
-  private:
-    const uint8_t _GradientStep = 1;
-    const uint16_t howManyFramesToPlay = 9600; //(approx 8 mins)
-    uint8_t _PalleteStartingIndex = 0;
-    uint8_t _NumberOfLedsPerPaletteColor = 2;
+private:
+  const uint8_t _GradientStep = 1;
+  const uint16_t howManyFramesToPlay = 9600; //(approx 8 mins)
+  uint8_t _PalleteStartingIndex = 0;
+  uint8_t _NumberOfLedsPerPaletteColor = 2;
 
-  public:
-    ExamplePattern()
+public:
+  IdlePattern()
+  {
+    m_speed = 60;
+  };
+
+  bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
+  {
+
+    static int8_t iPos = NUM_LEDS_PER_STRIP;
+    static uint8_t sequence = 0;
+    static bool startNextSequence = true;
+    static uint16_t framesPlayed = 0;
+    static uint8_t numLedsOn = 0;
+
+    // reset your pattern to play from the begining if someoneJustScored
+    if (someoneJustScored)
     {
-      m_speed = 50;
-    };
+      sequence = 0;
+      startNextSequence = true;
+      framesPlayed = 0;
+      numLedsOn = 0;
+    }
 
-    bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
+    switch (sequence)
     {
+    case 0:
 
-      static int8_t iPos = NUM_LEDS_PER_STRIP;
-      static uint8_t sequence = 0;
-      static bool startNextSequence = true;
-      static uint16_t framesPlayed = 0;
-
-
-      // reset your pattern to play from the begining if someoneJustScored
-      if (someoneJustScored)
+      for (uint8_t i = 0; i < NUM_STRIPS; i++)
       {
-        sequence = 0;
-        startNextSequence = true;
-        framesPlayed = 0;
+        flow(leds[i], 40 * i);
       }
 
-      switch (sequence) {
-        case 0:
-
-          flow(leds);
-          DuplicateToOtherStrips(leds);
-          framesPlayed++;
-
-          if (framesPlayed > howManyFramesToPlay) {
-            return true;
+      // turn on the leds one by one...
+      if (numLedsOn < NUM_LEDS_PER_STRIP)
+      {
+        m_speed = 20;
+        for (uint8_t i = 0; i < NUM_STRIPS; i++)
+        {
+          for (uint8_t j = numLedsOn; j < NUM_LEDS_PER_STRIP; j++)
+          {
+            leds[i][j] = CRGB::Black;
           }
-          break;
+        }
 
-        default:
-          return true;
+        numLedsOn++;
       }
-
-
-      return false;
-    }
-
-
-    void flow(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP])
-    {
-      fillLEDsFromPaletteColors(_PalleteStartingIndex, leds);
-      _PalleteStartingIndex += _GradientStep;
-    }
-
-    void fillLEDsFromPaletteColors(uint8_t startingIndex, CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP])
-    {
-      uint8_t index = startingIndex;
-
-      uint8_t interval = NUM_LEDS_PER_STRIP / _NumberOfLedsPerPaletteColor;
-
-      for (uint8_t i = 0; i < interval; i++)
+      else
       {
-        uint8_t startingLed = (i * _NumberOfLedsPerPaletteColor);
-        uint8_t endLed = startingLed + _NumberOfLedsPerPaletteColor;
-        //if this is the last iteration then set it cover the rest of the _Leds
-        if (((i + 1) - interval) == 0)
-        {
-          endLed = NUM_LEDS_PER_STRIP;
-        }
-        for (uint8_t led = startingLed; led < endLed; ++led)
-        {
-          leds[0][led] = ColorFromPalette(RainbowColors_p, index, 255, LINEARBLEND);
-        }
-        index += _GradientStep;
+        m_speed = 60;
       }
+
+      framesPlayed++;
+
+      if (framesPlayed > howManyFramesToPlay)
+      {
+        return true;
+      }
+      break;
+
+    default:
+      return true;
     }
 
+    return false;
+  }
 
+  void flow(CRGB leds[NUM_LEDS_PER_STRIP], uint8_t startingIndex)
+  {
+    fillLEDsFromPaletteColors(_PalleteStartingIndex + startingIndex, leds);
+    _PalleteStartingIndex += _GradientStep;
+  }
+
+  void fillLEDsFromPaletteColors(uint8_t startingIndex, CRGB leds[NUM_LEDS_PER_STRIP])
+  {
+    uint8_t index = startingIndex;
+
+    uint8_t interval = NUM_LEDS_PER_STRIP / _NumberOfLedsPerPaletteColor;
+
+    for (uint8_t i = 0; i < interval; i++)
+    {
+      uint8_t startingLed = (i * _NumberOfLedsPerPaletteColor);
+      uint8_t endLed = startingLed + _NumberOfLedsPerPaletteColor;
+      //if this is the last iteration then set it cover the rest of the _Leds
+      if (((i + 1) - interval) == 0)
+      {
+        endLed = NUM_LEDS_PER_STRIP;
+      }
+      for (uint8_t led = startingLed; led < endLed; ++led)
+      {
+        leds[led] = ColorFromPalette(RainbowColors_p, index, 255, LINEARBLEND);
+      }
+      index += _GradientStep;
+    }
+  }
 };
 
 #endif
