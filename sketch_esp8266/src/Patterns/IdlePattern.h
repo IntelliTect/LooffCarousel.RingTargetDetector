@@ -23,7 +23,7 @@ class IdlePattern : public CelebrationPattern
     uint8_t _NumberOfLedsPerPaletteColor = 2;
 
   public:
-    ExamplePattern()
+    IdlePattern()
     {
       m_speed = 50;
     };

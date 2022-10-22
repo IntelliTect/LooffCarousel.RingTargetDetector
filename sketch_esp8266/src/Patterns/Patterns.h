@@ -3,7 +3,7 @@
 #ifndef Patterns_h
 #define Patterns_h
 
-#define NUM_PATTERNS 4
+#define NUM_PATTERNS 3
 
 // You need to import Arduino.h to write a custom library
 #include "Arduino.h"

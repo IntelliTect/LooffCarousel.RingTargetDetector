@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <FastLED.h> // fastLED 3.4.0
-#include <Servo.h>
 
 #include "./src/CelebrationPattern.h"
 #include "./src/Patterns/Patterns.h"
@@ -28,7 +27,8 @@ uint8_t _vibReading = 0;
 #define PERIOD_WAIT_BETWEEN_SCORES 800
 #define MAX_SCORE_IN_A_ROW 5
 
-#define HOW_LONG_TO_WAIT_TO_IDLE_S 500
+//#define HOW_LONG_TO_WAIT_TO_IDLE_S 500
+#define HOW_LONG_TO_WAIT_TO_IDLE_S 10
 
 void setup()
 {
@@ -44,8 +44,8 @@ void setup()
   // add patterns
   _CelebrationPatterns[0] = new RainbowComet();
   _CelebrationPatterns[1] = new StarBurst();
-  _CelebrationPatterns[2] = new RandomColorCircle();
-  _CelebrationPatterns[3] = new Seahawks();
+  _CelebrationPatterns[2] = new Seahawks();
+  //_CelebrationPatterns[3] = new RandomColorCircle();
 
   // add led strips
   FastLED.addLeds<WS2812, 1, STRIP_RGB_ORDER>(leds[0], NUM_LEDS_PER_STRIP);
@@ -76,7 +76,6 @@ void setup()
 // loop() props
 bool _NewScore = false;
 bool _PossibleNewScore = false;               // same as vibration detected
-uint8_t _Speed = 3;                           // frequency in ms to draw a pattern
 bool _CurrentPatternAnimationFinished = true; // dont play at start up!
 CelebrationPattern *_SelectedPattern;
 uint8_t _VibrationsDetectedInARow = 0;
@@ -89,6 +88,7 @@ bool _CheckForIdle = true;
 void loop()
 {
   _PossibleNewScore = false;
+
   if (!_SensorsAreFalsePositive)
   {
     _PossibleNewScore = checkForVibration();
@@ -114,21 +114,22 @@ void loop()
   // essentially only "celebrate" if the frequency of scoring is greater than the PERIOD_WAIT_BETWEEN_SCORES
   // if frequency is greater then that indicates the sensors are false positive
   // the sensors will go to low once another score occurs (knocking them causes them to get unstuck). So wait until low, and then immediately "celebrate".
-  if (_VibrationsDetectedInARow >= MAX_SCORE_IN_A_ROW)
+  if ((_VibrationsDetectedInARow >= MAX_SCORE_IN_A_ROW) || _SensorsAreFalsePositive)
   {
     _SensorsAreFalsePositive = true;
-    // Serial.println("bad state!");
+    Serial.println("bad state!");
     _NewScore = checkVibrationSensorsForLow();
     // reset if the sensors go back to a good state
     if (_NewScore)
     {
       _SensorsAreFalsePositive = false;
       _VibrationsDetectedInARow = 0;
-      // Serial.println("good state");
+      Serial.println("good state");
     }
   }
   else
   {
+    // now confirmed that the vibration was a score
     _NewScore = _PossibleNewScore;
   }
 
@@ -137,20 +138,24 @@ void loop()
     uint8_t index = random8(NUM_PATTERNS);
     _SelectedPattern = _CelebrationPatterns[index];
     _TimeOfLastScore = millis();
+    Serial.println("score");
+    Serial.print(index);
     // turn on Idling checks
     _CheckForIdle = true;
   }
 
   ringBell(_NewScore);
 
-  if (_CheckForIdle)
+  if (_CheckForIdle && !_NewScore)
   {
     EVERY_N_SECONDS(5)
     {
-      _StartIdling = checkForIdle();
+      _StartIdling = checkIfIdle();
+      Serial.println("check idle");
       if (_StartIdling)
       {
         // turn off idling check
+        Serial.println("start idle");
         _CheckForIdle = false;
         _SelectedPattern = _IdlePattern;
       }
@@ -162,6 +167,11 @@ void loop()
   if (draw)
   {
     bool startFromBeginning = _StartIdling || _NewScore;
+
+    if(startFromBeginning){
+      Serial.println("start from beginning");
+    }
+    
     _CurrentPatternAnimationFinished = drawPattern(startFromBeginning);
 
     showFrame();
@@ -181,10 +191,13 @@ void loop()
       FastLED.show();
     }
   }
+  // reset the start idle
+  _StartIdling = false;
 }
 
 bool checkForVibration()
 {
+  bool vibrationDetected = false;
   EVERY_N_MILLISECONDS_I(thisvibrationCheckTimer, _vibSensorCheckFrequency)
   {
     _vibSensorCheckFrequency = 1;
@@ -200,23 +213,26 @@ bool checkForVibration()
         //  (presume that no one will score for a bit/ dont allow another score to interfere)
         _vibSensorCheckFrequency = PERIOD_WAIT_BETWEEN_SCORES;
 
-        return true;
+        vibrationDetected = true;
       }
     }
     thisvibrationCheckTimer.setPeriod(_vibSensorCheckFrequency);
   }
-  return false;
+  return vibrationDetected;
 }
 
+uint8_t _Speed = 3;           // frequency in ms to draw a pattern
+bool _PatternFinished = true;
 bool drawPattern(bool newScore)
 {
-
   if (newScore)
   {
     // prepare to draw a pattern
     FastLED.clear(); // clear all pixel data
     FastLED.show();
-    _CurrentPatternAnimationFinished = false;
+    // draw the first frame with newScore as true
+    _PatternFinished = _SelectedPattern->draw(leds, newScore);
+    return _PatternFinished;
   }
 
   // draw the pattern
@@ -226,10 +242,9 @@ bool drawPattern(bool newScore)
     _Speed = _SelectedPattern->m_speed;
     thisAnimationTimer.setPeriod(_Speed);
 
-    _CurrentPatternAnimationFinished = _SelectedPattern->draw(leds, newScore);
-  }
-
-  return _CurrentPatternAnimationFinished;
+    _PatternFinished = _SelectedPattern->draw(leds, newScore);
+}
+  return _PatternFinished;
 }
 
 uint8_t _msCounter = 0;
@@ -288,7 +303,7 @@ bool checkVibrationSensorsForLow()
   return false;
 }
 
-checkIfIdle()
+bool checkIfIdle()
 {
   if (millis() - _TimeOfLastScore > (HOW_LONG_TO_WAIT_TO_IDLE_S * 1000))
   {
