@@ -19,8 +19,11 @@ void setup() {
 }
 
 bool _SwingBell = false;
-uint8_t _BellSwingLoopCount = 0;
+uint16_t _BellSwingLoopCount = 0;
 uint8_t _trigger = 0;
+
+#define SWING_ANGLE 80
+const uint16_t SWING_INTERVAL = 15; // dont know why but 15 is like 300ms
 
 void loop() {
 
@@ -32,21 +35,21 @@ void loop() {
 
   if (_SwingBell) {
 
-    if (_BellSwingLoopCount <= 100) {
-      BellServo.write(60);
-      _BellSwingLoopCount++;
-      delay(1);
-    }
-    if (_BellSwingLoopCount >= 100) {
+   Serial.println(_BellSwingLoopCount);
+    if (_BellSwingLoopCount <= SWING_INTERVAL) {
+      BellServo.write(SWING_ANGLE);
+    } else {
       BellServo.write(0);
-      _BellSwingLoopCount++;
-      delay(1);
     }
 
-    if (_BellSwingLoopCount > 200) {
+    if (_BellSwingLoopCount > (2 * SWING_INTERVAL)) {
       // reset
       _BellSwingLoopCount = 0;
       _SwingBell = false;
+         Serial.println("reset");
+    } else {
+      _BellSwingLoopCount++;
+      delay(1);
     }
   }
 }
