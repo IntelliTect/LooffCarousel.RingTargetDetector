@@ -1,5 +1,5 @@
-#ifndef RainbowStarBurst_h
-#define RainbowStarBurst_h
+#ifndef ReverseRainbowStarBurst_h
+#define ReverseRainbowStarBurst_h
 
 #include "Arduino.h"
 #include <FastLED.h>
@@ -19,7 +19,7 @@ class ReverseRainbowStarBurst : public CelebrationPattern
   public:
     ReverseRainbowStarBurst()
     {
-      m_speed = .3;
+      m_speed = 1;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
