@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#define FASTLED_ESP8266_NODEMCU_PIN_ORDER // so can use screen printed pin numbers with fastled
 #include <FastLED.h> // fastLED 3.4.0
 
 #include "./src/CelebrationPattern.h"
@@ -43,8 +44,9 @@ void setup() {
   _CelebrationPatterns[0] = new RainbowComet();
   _CelebrationPatterns[1] = new StarBurst();
   _CelebrationPatterns[2] = new Seahawks();
-  _CelebrationPatterns[3] = new RandomColorCircle();
-  _CelebrationPatterns[4] = new ReverseRainbowStarBurst();
+  _CelebrationPatterns[3] = new ReverseRainbowStarBurst();
+  _CelebrationPatterns[4] = new RandomColorCircle();
+  
 
   // add led strips
   FastLED.addLeds<WS2812, 1, STRIP_RGB_ORDER>(leds[0], NUM_LEDS_PER_STRIP);

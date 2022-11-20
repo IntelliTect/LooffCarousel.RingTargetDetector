@@ -51,7 +51,7 @@ class ReverseRainbowStarBurst : public CelebrationPattern
       // return true.
       // 108 is so that if it is a full run, the orange doesn't just begin
       // to start again before ending
-      if (iterations == 108)
+      if (iterations == 54)
       {
         return true;
       }
