@@ -22,12 +22,12 @@ CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
 #define VIBRATION_SENSOR_1_PIN 13  // d7
 #define SERVO_ARDUINO_PIN 15       // d8
 
-uint_fast16_t _vibSensorCheckFrequency = 3;
+uint_fast16_t _vibSensorCheckFrequency = 2;
 uint8_t _vibReading = 0;
-#define PERIOD_WAIT_BETWEEN_SCORES 800
-#define MAX_SCORE_IN_A_ROW 5
+uint8_t _vibReading2 = 0;
+#define PERIOD_WAIT_BETWEEN_SCORES 1500
+#define MAX_SCORE_IN_A_ROW 2
 
-//#define HOW_LONG_TO_WAIT_TO_IDLE_S 500
 #define HOW_LONG_TO_WAIT_TO_IDLE_S 10
 
 void setup() {
@@ -45,7 +45,7 @@ void setup() {
   _CelebrationPatterns[1] = new StarBurst();
   _CelebrationPatterns[2] = new Seahawks();
   _CelebrationPatterns[3] = new ReverseRainbowStarBurst();
-  _CelebrationPatterns[4] = new RandomColorCircle();
+  //_CelebrationPatterns[4] = new RandomColorCircle();
   
 
   // add led strips
@@ -115,7 +115,7 @@ void loop() {
   {
     _SensorsAreFalsePositive = true;
     Serial.println("bad state!");
-    _NewScore = checkVibrationSensorsForLow();
+    _NewScore = doubleCheckSensors();
     // reset if the sensors go back to a good state
     if (_NewScore) {
       _SensorsAreFalsePositive = false;
@@ -265,6 +265,29 @@ void ringBell(bool newScore) {
       yield();
     }
   }
+}
+
+// the behavior observed is that one of the sensors will be in stuck in a high state after a vibration, and upon hitting the sensor agaign it will go low
+// and so the idea is to wait for it to go low, signifying that it was struck. So we are looking for the opposite = checkVibrationSensorsForLow
+// however while this worked well with sensors in a flat position, in a vertical position, senosr stuck in a high state now are observed
+// to get stuck and take a real smacking to go low. and so checkVibrationSensorsForLow was implemented as a quick hack to get the display going on install day.
+// So choose wither checkVibrationSensorsForLow, or checkVibrationSensorsAreDifferent
+bool doubleCheckSensors() {
+ //return checkVibrationSensorsForLow();
+ //return checkThatOneOfTheSenorsStateChanged();
+ return checkVibrationSensorsAreDifferent();
+}
+
+bool checkVibrationSensorsAreDifferent() {
+  _vibReading = digitalRead(VIBRATION_SENSOR_1_PIN);
+  _vibReading2 = digitalRead(VIBRATION_SENSOR_0_PIN);
+  yield();
+  // 
+  if (_vibReading != _vibReading2) {
+      return true;
+  }
+
+  return false;
 }
 
 bool checkVibrationSensorsForLow() {
