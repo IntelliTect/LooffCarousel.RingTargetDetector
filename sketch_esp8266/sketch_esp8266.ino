@@ -256,37 +256,22 @@ void ringBell(bool newScore) {
   }
 }
 
-// the behavior observed is that one of the sensors will be in stuck in a high state after a vibration, and upon hitting the sensor agaign it will go low
-// and so the idea is to wait for it to go low, signifying that it was struck. So we are looking for the opposite = checkVibrationSensorsForLow
-// however while this worked well with sensors in a flat position, in a vertical position, senosr stuck in a high state now are observed
-// to get stuck and take a real smacking to go low. and so checkVibrationSensorsForLow was implemented as a quick hack to get the display going on install day.
-// So choose wither checkVibrationSensorsForLow, or checkVibrationSensorsAreDifferent
+// the behavior observed is that both of the sensors can be stuck in a high state after a vibration, and upon hitting the sensor again it will go low
+// and so the idea is to wait for both or one to go low, signifying that it was struck.
 bool doubleCheckSensors() {
-  //return checkVibrationSensorsForLow();
-  //return checkThatOneOfTheSenorsStateChanged();
-  return checkVibrationSensorsAreDifferent();
+  return checkVibrationSensorsAreDifferentOrBothLow();
 }
 
-bool checkVibrationSensorsAreDifferent() {
+bool checkVibrationSensorsAreDifferentOrBothLow() {
   _vibReading = digitalRead(VIBRATION_SENSOR_1_PIN);
   _vibReading2 = digitalRead(VIBRATION_SENSOR_0_PIN);
   yield();
-  //
+
   if (_vibReading != _vibReading2) {
     return true;
   }
-
-  return false;
-}
-
-bool checkVibrationSensorsForLow() {
-  _vibReading = digitalRead(VIBRATION_SENSOR_0_PIN);
-  yield();
-  if (_vibReading == 0) {
-    _vibReading = digitalRead(VIBRATION_SENSOR_1_PIN);
-    if (_vibReading == 0) {
-      return true;
-    }
+  if (_vibReading == 0 && _vibReading2 == 0) {
+    return true;
   }
 
   return false;
