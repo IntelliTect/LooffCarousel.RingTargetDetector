@@ -22,7 +22,8 @@ bool _SwingBell = false;
 uint16_t _BellSwingLoopCount = 0;
 uint8_t _trigger = 0;
 
-#define SWING_ANGLE 80
+#define SWING_ANGLE 110
+#define RESTING_ANGLE 40
 const uint16_t SWING_INTERVAL = 15; // dont know why but 15 is like 300ms
 
 void loop() {
@@ -39,7 +40,7 @@ void loop() {
     if (_BellSwingLoopCount <= SWING_INTERVAL) {
       BellServo.write(SWING_ANGLE);
     } else {
-      BellServo.write(0);
+      BellServo.write(RESTING_ANGLE);
     }
 
     if (_BellSwingLoopCount > (2 * SWING_INTERVAL)) {
