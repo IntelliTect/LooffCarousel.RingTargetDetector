@@ -256,21 +256,18 @@ void ringBell(bool newScore) {
   }
 }
 
-// the behavior observed is that both of the sensors can be stuck in a high state after a vibration, and upon hitting the sensor again it will go low
-// and so the idea is to wait for both or one to go low, signifying that it was struck.
+// the behavior observed is that both of the sensors can be stuck in a high or low after a vibration, and upon hitting the sensor again one will change states.
+// and so the idea is to wait for that change, signifying that it was struck. This logic is working the best.
 bool doubleCheckSensors() {
-  return checkVibrationSensorsAreDifferentOrBothLow();
+  return checkVibrationSensorsAreDifferent();
 }
 
-bool checkVibrationSensorsAreDifferentOrBothLow() {
+bool checkVibrationSensorsAreDifferent() {
   _vibReading = digitalRead(VIBRATION_SENSOR_1_PIN);
   _vibReading2 = digitalRead(VIBRATION_SENSOR_0_PIN);
   yield();
 
   if (_vibReading != _vibReading2) {
-    return true;
-  }
-  if (_vibReading == 0 && _vibReading2 == 0) {
     return true;
   }
 
