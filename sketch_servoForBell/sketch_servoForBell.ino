@@ -22,8 +22,8 @@ bool _SwingBell = false;
 uint16_t _BellSwingLoopCount = 0;
 uint8_t _trigger = 0;
 
-#define SWING_ANGLE 110
-#define RESTING_ANGLE 40
+#define SWING_ANGLE 140
+#define RESTING_ANGLE 50
 const uint16_t SWING_INTERVAL = 15; // dont know why but 15 is like 300ms
 
 void loop() {
