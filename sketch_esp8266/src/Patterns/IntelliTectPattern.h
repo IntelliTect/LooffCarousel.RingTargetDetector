@@ -45,8 +45,13 @@ class IntelliTectPattern : public CelebrationPattern
             uint8_t dist = (i > center) ? (i - center) : (center - i);
             if (dist <= radius)
             {
-              bool isBlue = (dist / ringWidth) % 2 == 0;
-              leds[0][i] = isBlue ? _IntelliTectBlue : CRGB::White;
+              uint8_t ring = (dist / ringWidth) % 3;
+              switch (ring)
+              {
+                case 0: leds[0][i] = _IntelliTectBlue; break;
+                case 1: leds[0][i] = CRGB::White;      break;
+                case 2: leds[0][i] = CRGB::Black;      break;
+              }
             }
           }
 
