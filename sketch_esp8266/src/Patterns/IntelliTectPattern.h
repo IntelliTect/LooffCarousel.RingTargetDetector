@@ -35,6 +35,7 @@ class IntelliTectPattern : public CelebrationPattern
       switch (sequence)
       {
         case 0:
+        {
           // expanding rings of blue and white outward from center
           FastLED.clear();
           const uint8_t center = NUM_LEDS_PER_STRIP / 2;
@@ -65,8 +66,10 @@ class IntelliTectPattern : public CelebrationPattern
             pulseFrame = 0;
           }
           break;
+        }
 
         case 1:
+        {
           // full IntelliTect blue pulse
           for (uint8_t s = 0; s < NUM_STRIPS; s++)
             for (uint8_t i = 0; i < NUM_LEDS_PER_STRIP; i++)
@@ -77,6 +80,7 @@ class IntelliTectPattern : public CelebrationPattern
           if (pulseFrame > 12)
             return true;
           break;
+        }
       }
 
       return false;
