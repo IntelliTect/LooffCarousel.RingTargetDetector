@@ -3,7 +3,7 @@
 #ifndef Patterns_h
 #define Patterns_h
 
-#define NUM_PATTERNS 4
+#define NUM_PATTERNS 5
 
 // You need to import Arduino.h to write a custom library
 #include "Arduino.h"
@@ -13,5 +13,6 @@
 #include "./Seahawks.h"
 //#include "./RandomColorCircle.h" // not working yet
 #include "./ReverseRainbowStarBurst.h"
+#include "./IntelliTectPattern.h"
 
 #endif

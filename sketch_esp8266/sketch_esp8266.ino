@@ -45,6 +45,7 @@ void setup() {
   _CelebrationPatterns[1] = new StarBurst();
   _CelebrationPatterns[2] = new Seahawks();
   _CelebrationPatterns[3] = new ReverseRainbowStarBurst();
+  _CelebrationPatterns[4] = new IntelliTectPattern();
   //_CelebrationPatterns[4] = new RandomColorCircle();
 
 
