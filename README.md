@@ -20,6 +20,13 @@ Firmware lives in [./sketch_esp32](./sketch_esp32).
 | Vibration sensor 0 | 16 |
 | Vibration sensor 1 | 13 |
 | Bell servo | 23 |
+| DFPlayer Mini RX (ESP32 TX) | 25 |
+| DFPlayer Mini TX (ESP32 RX) | 26 |
+| Spin sensor (active low, internal pull-up) | 32 |
+
+Libraries: FastLED 3.10.5 and DFRobotDFPlayerMini 1.0.6. The SD card layout is in [./sdcard](./sdcard).
+
+`SPIN_SENSOR_TYPE` in `sketch_esp32.ino` picks how the spin sensor is read: `SPIN_SENSOR_LEVEL` treats a low pin as spinning, `SPIN_SENSOR_PULSE` treats a falling edge within the last `SPIN_PULSE_TIMEOUT_MS` as spinning. With nothing wired to GPIO 32 the carousel reads as not spinning.
 
 ## Wokwi
 
