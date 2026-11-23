@@ -6,6 +6,7 @@
 #include "./src/Patterns/Patterns.h"
 #include "./src/Patterns/IdlePattern.h"
 #include "./src/Patterns/BuildUpPattern.h"
+#include "./src/Patterns/ComboFailPattern.h"
 #include "./src/ExamplePattern.h"
 #include "./src/LedDisplayConf.h"
 
@@ -13,6 +14,7 @@
 CelebrationPattern **_CelebrationPatterns = new CelebrationPattern *[NUM_PATTERNS];
 IdlePattern *_IdlePattern = new IdlePattern();
 BuildUpPattern *_BuildUpPattern = new BuildUpPattern();
+ComboFailPattern *_ComboFailPattern = new ComboFailPattern();
 
 // leds
 CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP];
@@ -363,7 +365,7 @@ void respondToScore() {
   Serial.println(_ComboStage);
 }
 
-// ends a combo once its window runs out and chains the jackpot patterns. returns true when it picked a pattern to start
+// fails a combo once its window runs out and chains the jackpot patterns. returns true when it picked a pattern to start
 bool updateCombo() {
   if (_ComboStage == 0) {
     return false;
@@ -371,9 +373,11 @@ bool updateCombo() {
 
   if (_ComboStage < COMBO_JACKPOT_STAGE) {
     if (millis() - _TimeOfLastScore > COMBO_WINDOW_MS) {
-      Serial.println("combo ended");
+      Serial.println("combo failed");
+      // the lit rings drain away rather than a celebration playing, so a missed combo never looks like the jackpot
+      _ComboFailPattern->setStage(_ComboStage);
+      _SelectedPattern = _ComboFailPattern;
       _ComboStage = 0;
-      selectRandomCelebration(false);
       return true;
     }
     return false;

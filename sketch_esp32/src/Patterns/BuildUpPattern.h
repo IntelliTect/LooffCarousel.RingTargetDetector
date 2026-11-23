@@ -15,6 +15,8 @@
 
 #define BUILD_UP_NUM_STAGES 4
 #define BUILD_UP_RING_GAP 3  // dark leds on each side of a ring so the rings read as separate
+// rings go from the center (led 0) outward, and each ring is a step hotter in color
+static const uint8_t BUILD_UP_RING_HUES[BUILD_UP_NUM_STAGES] = {HUE_BLUE, HUE_GREEN, HUE_YELLOW, HUE_RED};
 
 // shown while a combo builds up, one ring per consecutive toss while spinning (stage 1 = 1 ring ... stage 4 = 4 rings).
 // kept out of the celebration pool like IdlePattern
@@ -37,8 +39,6 @@ public:
 
   bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
   {
-    // rings go from the center (led 0) outward, and each ring is a step hotter in color
-    const uint8_t ringHues[BUILD_UP_NUM_STAGES] = {HUE_BLUE, HUE_GREEN, HUE_YELLOW, HUE_RED};
     const uint8_t ringSpacing = NUM_LEDS_PER_STRIP / BUILD_UP_NUM_STAGES;
     const uint8_t ringWidth = ringSpacing - 2 * BUILD_UP_RING_GAP;
 
@@ -66,7 +66,7 @@ public:
     {
       uint8_t ringStart = ring * ringSpacing + BUILD_UP_RING_GAP;
       uint8_t ledsLit = (ring == _Stage - 1) ? _NewRingLedsLit : ringWidth;
-      fill_solid(&leds[0][ringStart], ledsLit, CHSV(ringHues[ring], 255, brightness));
+      fill_solid(&leds[0][ringStart], ledsLit, CHSV(BUILD_UP_RING_HUES[ring], 255, brightness));
     }
     DuplicateToOtherStrips(leds);
 
