@@ -45,7 +45,8 @@ void setup() {
   _CelebrationPatterns[2] = new Seahawks();
   _CelebrationPatterns[3] = new ReverseRainbowStarBurst();
   _CelebrationPatterns[4] = new IntelliTectPattern();
-  //_CelebrationPatterns[4] = new RandomColorCircle();
+  _CelebrationPatterns[5] = new RandomColorCircle();
+  _CelebrationPatterns[6] = new DrainComet();
 
 
   // add led strips

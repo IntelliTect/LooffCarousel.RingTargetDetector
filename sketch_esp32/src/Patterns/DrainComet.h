@@ -1,24 +1,28 @@
-#ifndef ExamplePattern_h
-#define ExamplePattern_h
+#ifndef DrainComet_h
+#define DrainComet_h
 
 #include "Arduino.h"
 #include <FastLED.h>
-#include "CelebrationPattern.h"
-#include "LedDisplayConf.h"
+// for arduino
+#include "../CelebrationPattern.h"
+#include "../LedDisplayConf.h"
+
+// for Wokwi (doesn't have folder structure)
+/* #include "CelebrationPattern.h"
+#include "LedDisplayConf.h" */
 
 
-class ExamplePattern : public CelebrationPattern
+class DrainComet : public CelebrationPattern
 {
 
   public:
-    ExamplePattern()
+    DrainComet()
     {
       m_speed = 200;
     };
 
     bool draw(CRGB leds[NUM_STRIPS][NUM_LEDS_PER_STRIP], bool someoneJustScored = false)
     {
-      const byte fadeAmt = 128;
       const int cometSize = 4;
       const int deltaHue  = 4;
       const CRGB color = CRGB::CRGB::Purple;
@@ -38,6 +42,10 @@ class ExamplePattern : public CelebrationPattern
       FastLED.clear();
 
       iPos += iDirection *5;
+      // the comet moves 5 leds a frame, so stop it on the last position instead of running past the end of the strip
+      if (iPos > NUM_LEDS_PER_STRIP - cometSize) {
+        iPos = NUM_LEDS_PER_STRIP - cometSize;
+      }
       if (iPos == (NUM_LEDS_PER_STRIP - cometSize) || iPos == 0) {
         iDirection *= -1;
       }
